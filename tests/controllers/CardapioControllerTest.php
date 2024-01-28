@@ -12,7 +12,7 @@ class CardapioControllerTest extends TestCase
     public function testCreate()
     {
         $data = json_encode('{
-                    "nome": "X Bacon",
+                    "nome": "X Bacon",      
                     "descricao": "Lanche com hamburguer, queijo e bacon",
                     "categoria": "LANCHES",
                     "valor": "32.00"

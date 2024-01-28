@@ -22,7 +22,7 @@ class PaymentGateway extends SendOut
     }
 
     public function setEndpoint(){
-        $this->endpoint = "{$_ENV['PAYMENT_CONNECTION']}/payment";
+        $this->endpoint = "{$_ENV['PAYMENT_CONNECTION']}/order-confirm";
     }
 
     public function getEndpoint(){
