@@ -1,0 +1,22 @@
+{
+    "name": "soap2-33/ms-pedidos-app",
+    "description": "Microserviço de Pedidos para o App de Fast Food Fiap soap2 - grupo 33",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "MsPedidosApp\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "galletto"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^10.5"
+    },
+    "require": {
+        "vlucas/phpdotenv": "^5.6",
+        "guzzlehttp/guzzle": "^7.0"
+    }
+}
