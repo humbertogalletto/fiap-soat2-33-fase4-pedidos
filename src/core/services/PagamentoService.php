@@ -2,6 +2,7 @@
 
 namespace MsPedidosApp\core\services;
 
+use GuzzleHttp\Exception\GuzzleException;
 use MsPedidosApp\adapters\ms\PaymentGateway;
 use MsPedidosApp\adapters\ms\ProductionGateway;
 use MsPedidosApp\core\entities\Pedido;
@@ -13,6 +14,9 @@ class PagamentoService implements IPagamentoService
     {
     }
 
+    /**
+     * @throws GuzzleException
+     */
     public function process(array $data): bool
     {
         if($data['confirm']) {
