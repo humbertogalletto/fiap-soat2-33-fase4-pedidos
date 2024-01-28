@@ -8,7 +8,7 @@ $dotenv->load();
 try {
     $requestUrl = $_SERVER['REQUEST_URI'];
     $method = $_SERVER['REQUEST_METHOD'];
-    $routes = include 'src/api/routes.php';
+    $routes = include_once 'src/api/routes.php';
 
     $matchedRoute = null;
     $matchedParams = [];

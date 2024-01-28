@@ -29,6 +29,4 @@ class PaymentGateway extends SendOut
         return $this->endpoint;
     }
 
-
-
 }
