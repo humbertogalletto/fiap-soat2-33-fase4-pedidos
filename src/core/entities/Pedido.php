@@ -8,7 +8,7 @@ use MsPedidosApp\entities\DateTime;
 class Pedido extends Entity
 {
 
-    public string $_id;
+    public string $id;
     public DateTime|string $recebimento;
     public DateTime|string|null $fechamento;
     public DateTime|string|null $pagamento;
