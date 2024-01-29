@@ -4,6 +4,7 @@ namespace core\services;
 
 use MsPedidosApp\adapters\db\external\MongoRepository;
 use MsPedidosApp\core\entities\Cardapio;
+use MsPedidosApp\core\exceptions\ServicesException;
 use MsPedidosApp\core\services\CardapioService;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
@@ -24,11 +25,12 @@ class CardapioServiceTest extends TestCase
     }
 
     /**
+     * @return void
      * @throws \MongoDB\Driver\Exception\Exception
      */
     public function testCreateThrowsExceptionWhenNoCategory()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(ServicesException::class);
         $this->expectExceptionMessage("Preencha a categoria do produto");
 
         $this->cardapioService->create([]);
@@ -39,7 +41,7 @@ class CardapioServiceTest extends TestCase
      */
     public function testCreateThrowsExceptionWithInvalidCategory()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(ServicesException::class);
         $this->expectExceptionMessage("Categoria inválida");
 
         $this->cardapioService->create(['categoria' => 'CategoriaInexistente']);
@@ -71,7 +73,7 @@ class CardapioServiceTest extends TestCase
      */
     public function testCreateFailsToInsertBadCategory()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(ServicesException::class);
         $this->expectExceptionMessage("Categoria inválida");
 
         $this->cardapioService->create(['categoria' => 'CategoriaInvalida']);
@@ -82,7 +84,7 @@ class CardapioServiceTest extends TestCase
      */
     public function testCreateFailsToInsert()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(ServicesException::class);
         $this->expectExceptionMessage("O item do cardápio não foi criado");
         $this->repositoryMock->method('create')->willReturn(0);
 
@@ -113,7 +115,7 @@ class CardapioServiceTest extends TestCase
      */
     public function testUpdateInvalidCategory()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(ServicesException::class);
         $this->expectExceptionMessage("Categoria inválida");
 
         $body = [
@@ -131,7 +133,7 @@ class CardapioServiceTest extends TestCase
      */
     public function testUpdateFail()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(ServicesException::class);
         $this->expectExceptionMessage("O item do cardápio não foi alterado");
         $this->repositoryMock->method('update')->willReturn(0);
 
@@ -154,7 +156,7 @@ class CardapioServiceTest extends TestCase
 
     public function testDeleteFails()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(ServicesException::class);
         $this->expectExceptionMessage("O item do cardápio não foi deletado");
 
         $this->repositoryMock->method('delete')->willReturn(0);

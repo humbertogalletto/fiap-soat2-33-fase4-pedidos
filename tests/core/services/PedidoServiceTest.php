@@ -5,6 +5,7 @@ namespace core\services;
 use MongoDB\Driver\Exception\Exception;
 use MsPedidosApp\adapters\db\external\MongoRepository;
 use MsPedidosApp\core\entities\Pedido;
+use MsPedidosApp\core\exceptions\ServicesException;
 use MsPedidosApp\core\services\PedidoService;
 use PHPUnit\Framework\TestCase;
 
@@ -49,7 +50,7 @@ class PedidoServiceTest extends TestCase
      */
     public function testCreateFails()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(ServicesException::class);
         $this->expectExceptionMessage("O pedido não foi criado");
 
         $this->repositoryMock->method('create')->willReturn(0);
@@ -68,7 +69,7 @@ class PedidoServiceTest extends TestCase
 
     public function testUpdateThrowsExceptionWithInvalidStatus()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(ServicesException::class);
         $this->expectExceptionMessage("Status inválido");
 
         $this->pedidoService->update('1', ['status' => 'StatusInvalido']);
@@ -142,7 +143,7 @@ class PedidoServiceTest extends TestCase
 
     public function testDeleteFails()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(ServicesException::class);
         $this->expectExceptionMessage("O pedido não foi deletado");
 
         $this->repositoryMock->method('delete')->willReturn(0);
