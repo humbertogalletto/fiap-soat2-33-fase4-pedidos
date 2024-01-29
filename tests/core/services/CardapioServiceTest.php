@@ -77,6 +77,9 @@ class CardapioServiceTest extends TestCase
         $this->cardapioService->create(['categoria' => 'CategoriaInvalida']);
     }
 
+    /**
+     * @throws \MongoDB\Driver\Exception\Exception
+     */
     public function testCreateFailsToInsert()
     {
         $this->expectException(\Exception::class);
@@ -86,6 +89,9 @@ class CardapioServiceTest extends TestCase
         $this->cardapioService->create(['categoria' => 'LANCHES']);
     }
 
+    /**
+     * @throws \MongoDB\Driver\Exception\Exception
+     */
     public function testUpdateValidCategory()
     {
         $this->repositoryMock->method('update')->willReturn(1);
@@ -102,6 +108,9 @@ class CardapioServiceTest extends TestCase
         $this->assertInstanceOf(Cardapio::class, $result);
     }
 
+    /**
+     * @throws \MongoDB\Driver\Exception\Exception
+     */
     public function testUpdateInvalidCategory()
     {
         $this->expectException(\Exception::class);
@@ -117,6 +126,9 @@ class CardapioServiceTest extends TestCase
         $this->cardapioService->update('huhuhuen9h98239dh9', $body);
     }
 
+    /**
+     * @throws \MongoDB\Driver\Exception\Exception
+     */
     public function testUpdateFail()
     {
         $this->expectException(\Exception::class);
@@ -127,7 +139,9 @@ class CardapioServiceTest extends TestCase
         $this->cardapioService->update('huhuhuen9h98239dh9', []);
     }
 
-    // Testes para o método `delete`
+    /**
+     * @throws \Exception
+     */
     public function testDeleteSuccessful()
     {
         $this->repositoryMock->method('delete')->willReturn(1);
@@ -148,6 +162,9 @@ class CardapioServiceTest extends TestCase
         $this->cardapioService->delete('huhuhuen9h98239dh9');
     }
 
+    /**
+     * @throws \MongoDB\Driver\Exception\Exception
+     */
     public function testShow()
     {
         $this->repositoryMock->method('show')->willReturn(
