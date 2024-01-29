@@ -206,5 +206,4 @@ class CardapioServiceTest extends TestCase
         $this->assertIsArray($result);
         $this->assertArrayHasKey('LANCHES',$result);
     }
-
 }
