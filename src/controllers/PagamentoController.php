@@ -17,6 +17,4 @@ class PagamentoController
     {
         $this->service->process($data);
     }
-
-
 }

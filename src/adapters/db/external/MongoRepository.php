@@ -189,6 +189,8 @@ class MongoRepository
 
     private function getQuery($id)
     {
-        return $this->pKey == 'oid'?new Query(['_id' => ['$eq' => new ObjectId($id)]]):new Query([$this->pKey => ['$eq' => $id]]);
+        return $this->pKey == 'oid'?
+            new Query(['_id' => ['$eq' => new ObjectId($id)]]):
+            new Query([$this->pKey => ['$eq' => $id]]);
     }
 }

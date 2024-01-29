@@ -33,7 +33,4 @@ class ProductionGateway extends SendOut
     public function getEndpoint(){
         return $this->endpoint;
     }
-
-
-
 }

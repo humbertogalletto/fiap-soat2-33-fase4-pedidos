@@ -16,23 +16,23 @@ $fastFoodApp = new FastFoodApp(DBGateway::getRepository());
 
 // Home - Exibe o cardápio
 $routes['/'] = [
-    'GET' => function ($params = null) use ($fastFoodApp) {
+    'GET' => function () use ($fastFoodApp) {
         return $fastFoodApp->list(CardapioController::class);
     }
 ];
 
 // Pedidos
 $routes['/pedido'] = [
-    'POST' => function ($params = null) use ($data, $fastFoodApp) {
+    'POST' => function () use ($data, $fastFoodApp) {
         return $fastFoodApp->create(PedidoController::class, $data);
     },
-    'GET' => function ($params = null) use ($fastFoodApp) {
+    'GET' => function () use ($fastFoodApp) {
         return $fastFoodApp->list(PedidoController::class);
     }
 ];
 
 $routes['/pedidos'] = [
-    'GET' => function ($params = null) use ($fastFoodApp) {
+    'GET' => function () use ($fastFoodApp) {
         return $fastFoodApp->query(PedidoController::class, [], 'pedidos');
     }
 ];
@@ -50,7 +50,7 @@ $routes['/pedido/{id}'] = [
 ];
 
 $routes['/pedido-status'] = [
-    'GET' => function ($params = null) use($fastFoodApp) {
+    'GET' => function () use($fastFoodApp) {
         return $fastFoodApp->query(PedidoController::class, [], 'statusList');
     }
 ];
@@ -63,10 +63,10 @@ $routes['/pedido-status/{status}'] = [
 
 // Cardapio
 $routes['/cardapio'] = [
-    'POST' => function ($params = null) use ($data, $fastFoodApp) {
+    'POST' => function () use ($data, $fastFoodApp) {
         return $fastFoodApp->create(CardapioController::class, $data);
     },
-    'GET' => function ($params = null) use($fastFoodApp) {
+    'GET' => function () use($fastFoodApp) {
         return $fastFoodApp->list(CardapioController::class);
     }
 ];
@@ -84,14 +84,14 @@ $routes['/cardapio/{id}'] = [
 ];
 
 $routes['/categorias'] = [
-    'GET' => function ($params = null) use($fastFoodApp) {
+    'GET' => function () use($fastFoodApp) {
         return $fastFoodApp->query(CardapioController::class, [], 'categoriasList');
     }
 ];
 
 // Pagamento
 $routes['/order-confirm'] = [
-    'POST' => function ($params = null) use ($data, $fastFoodApp) {
+    'POST' => function () use ($data, $fastFoodApp) {
         return $fastFoodApp->query(PagamentoController::class, [], $data, 'process');
     },
 ];
