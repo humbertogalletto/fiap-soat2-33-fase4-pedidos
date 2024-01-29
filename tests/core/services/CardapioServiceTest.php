@@ -147,4 +147,40 @@ class CardapioServiceTest extends TestCase
         $this->assertInstanceOf(Cardapio::class, $result);
 
     }
+
+
+    /**
+     * @throws \MongoDB\Driver\Exception\Exception
+     */
+    public function testList()
+    {
+        $this->repositoryMock->method('list')->willReturn(
+            [
+                [
+                    "nome" => "X SALADA",
+                    "descricao" => "Lanche com hamburguer, queijo e alface",
+                    "categoria" => "LANCHES",
+                    "valor" => "30.50"
+                ],
+                [
+                    "nome" => "X SALADA",
+                    "descricao" => "Lanche com hamburguer, queijo e alface",
+                    "categoria" => "LANCHES",
+                    "valor" => "30.50"
+                ],
+                [
+                    "nome" => "X SALADA",
+                    "descricao" => "Lanche com hamburguer, queijo e alface",
+                    "categoria" => "LANCHES",
+                    "valor" => "30.50"
+                ],
+            ]
+        );
+
+        $result = $this->cardapioService->list();
+
+        $this->assertIsArray($result);
+        $this->assertInstanceOf(Cardapio::class, $result[0]);
+    }
+
 }
