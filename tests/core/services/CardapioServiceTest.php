@@ -80,7 +80,7 @@ class CardapioServiceTest extends TestCase
     public function testCreateFailsToInsert()
     {
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage("Categoria inválida");
+        $this->expectExceptionMessage("O item do cardápio não foi criado");
         $this->repositoryMock->method('create')->willReturn(0);
 
         $this->cardapioService->create(['categoria' => 'LANCHES']);
