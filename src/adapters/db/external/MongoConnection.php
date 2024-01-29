@@ -24,13 +24,9 @@ class MongoConnection extends ConnectionData
     private function connect(): void
     {
         try {
-            $uriConnection = "mongodb://
-            {$this->getMongoUsername()}:
-            {$this->getMongoPassword()}@
-            {$this->getMongoHost()}:
-            {$this->getMongoPort()}/
-            {$this->getMongoDatabase()}
-            ?authSource=admin";
+            $uriConnection = "mongodb://{$this->getMongoUsername()}:{$this->getMongoPassword()}@";
+            $uriConnection .= "{$this->getMongoHost()}:{$this->getMongoPort()}/";
+            $uriConnection .= "{$this->getMongoDatabase()}?authSource=admin";
 
             $v1 = new ServerApi(ServerApi::V1);
             $this->manager = new Manager($uriConnection, [], ['serverApi' => $v1]);

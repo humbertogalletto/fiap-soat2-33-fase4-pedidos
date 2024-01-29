@@ -6,7 +6,7 @@ use MsPedidosApp\entities\DateTime;
 
 class Cardapio extends Entity
 {
-    public string $id;
+    public string $_id;
     public string $nome;
     public string $descricao;
     public string $categoria;
