@@ -6,7 +6,6 @@ use MongoDB\Driver\Command;
 use MongoDB\Driver\Manager;
 use MongoDB\Driver\ServerApi;
 use MsPedidosApp\adapters\db\external\base\ConnectionData;
-use MsPedidosApp\external\base\Connection;
 
 
 class MongoConnection extends ConnectionData
@@ -16,6 +15,7 @@ class MongoConnection extends ConnectionData
 
     public Manager $manager;
 
+    // construct private para impedir que esta classe seja instanciada com new
     private function __construct(){}
 
     /**
@@ -24,13 +24,16 @@ class MongoConnection extends ConnectionData
     private function connect(): void
     {
         try {
-            $uriConnection = "mongodb://{$this->getMongoUsername()}:{$this->getMongoPassword()}@{$this->getMongoHost()}:{$this->getMongoPort()}/{$this->getMongoDatabase()}?authSource=admin";
+            $uriConnection = "mongodb://
+            {$this->getMongoUsername()}:
+            {$this->getMongoPassword()}@
+            {$this->getMongoHost()}:
+            {$this->getMongoPort()}/
+            {$this->getMongoDatabase()}
+            ?authSource=admin";
+
             $v1 = new ServerApi(ServerApi::V1);
             $this->manager = new Manager($uriConnection, [], ['serverApi' => $v1]);
-            $command = new Command(['buildInfo' => 1]);
-
-            $cursor = $this->manager->executeCommand('admin', $command);
-
         } catch (\Exception $e) {
             echo "----> ", "\n";
             echo $e->getMessage(), "\n";

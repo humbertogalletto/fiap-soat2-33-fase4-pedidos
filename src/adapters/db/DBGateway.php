@@ -8,9 +8,6 @@ use MsPedidosApp\external\MongoRedisRepository;
 use MsPedidosApp\external\RedisConnection;
 use MsPedidosApp\external\RedisRepository;
 
-//use MsPedidosApp\external\PdoConnection;
-//use MsPedidosApp\external\PdoRepository;
-
 class DBGateway
 {
     public static function getRepository(): MongoRepository
@@ -23,5 +20,4 @@ class DBGateway
         return $repository;
 
     }
-
 }

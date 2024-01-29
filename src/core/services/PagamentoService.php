@@ -10,10 +10,6 @@ use MsPedidosApp\core\interfaces\IPagamentoService;
 
 class PagamentoService implements IPagamentoService
 {
-    public function __construct()
-    {
-    }
-
     /**
      * @throws GuzzleException
      */

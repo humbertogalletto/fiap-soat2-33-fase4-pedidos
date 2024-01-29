@@ -31,7 +31,8 @@ class CardapioController
 
     public function delete($id)
     {
-        return DeleteAdapter::json($this->service->delete($id));
+        $this->service->delete($id);
+        return DeleteAdapter::json();
     }
 
     public function show($id)

@@ -5,6 +5,7 @@ namespace MsPedidosApp\core\services;
 use MongoDB\Driver\Exception\Exception;
 use MsPedidosApp\adapters\db\external\MongoRepository;
 use MsPedidosApp\core\entities\Cardapio;
+use MsPedidosApp\core\exceptions\ServicesException;
 use MsPedidosApp\core\interfaces\ICardapioService;
 use MsPedidosApp\core\types\EnumCategorias;
 
@@ -35,19 +36,19 @@ class CardapioService implements ICardapioService
     public function create(array $request): Cardapio
     {
         if(!isset($request['categoria'])){
-            throw new \Exception("Preencha a categoria do produto");
+            throw new ServicesException("Preencha a categoria do produto");
         }
         $categoria = $request['categoria'] instanceof \UnitEnum ? $request['categoria']->name : $request['categoria'];
         if (!array_key_exists($categoria, EnumCategorias::getList())) {
-            throw new \Exception("Categoria inválida");
+            throw new ServicesException("Categoria inválida");
         } else {
             $request['categoria'] = $categoria;
         }
 
-        $request['created_at'] = $request['updated_at'] = date('Y-m-d H:i:s');
+        $request['createdAt'] = $request['updatedAt'] = date('Y-m-d H:i:s');
 
         if($this->repository->create($request) == 0) {
-            throw new \Exception("O item do cardápiio não foi criado", 500);
+            throw new ServicesException("O item do cardápio não foi criado", 500);
         }
         return $this->show($this->repository->getLastInsertId());
     }
@@ -60,16 +61,19 @@ class CardapioService implements ICardapioService
     public function update(string $id, array $request): Cardapio
     {
         if(isset($request['categoria'])) {
-            $categoria = $request['categoria'] instanceof \UnitEnum ? $request['categoria']->name : $request['categoria'];
+            $categoria = $request['categoria'] instanceof \UnitEnum ?
+                $request['categoria']->name :
+                $request['categoria'];
+
             if (!array_key_exists($categoria, EnumCategorias::getList())) {
-                throw new \Exception("Categoria inválida");
+                throw new ServicesException("Categoria inválida");
             } else {
                 $request['categoria'] = $categoria;
             }
         }
-        $request['updated_at'] = date('Y-m-d H:i:s');
+        $request['updatedAt'] = date('Y-m-d H:i:s');
         if($this->repository->update($id, $request) == 0) {
-            throw new \Exception("O item do cardápio não foi alterado", 500);
+            throw new ServicesException("O item do cardápio não foi alterado", 500);
         }
 
         return $this->show($id);
@@ -83,7 +87,7 @@ class CardapioService implements ICardapioService
     public function delete(string $id): array
     {
         if($this->repository->delete($id) == 0) {
-            throw new \Exception("O item do cardápio não foi deletado", 500);
+            throw new ServicesException("O item do cardápio não foi deletado", 500);
         }
         return [];
     }

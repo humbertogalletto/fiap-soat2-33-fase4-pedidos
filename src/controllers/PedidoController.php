@@ -51,7 +51,8 @@ class PedidoController
      */
     public function delete($id): bool|string
     {
-        return DeleteAdapter::json($this->service->delete($id));
+        $this->service->delete($id);
+        return DeleteAdapter::json();
     }
 
     /**
