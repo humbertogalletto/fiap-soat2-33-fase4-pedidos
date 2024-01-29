@@ -19,33 +19,33 @@ class CardapioController
     }
 
 
-    public function create($request)
+    public function create($request): bool|string
     {
         return CreateAdapter::json($this->service->create($request));
     }
 
-    public function update($id, $request)
+    public function update($id, $request): bool|string
     {
         return UpdateAdapter::json($this->service->update($id, $request));
     }
 
-    public function delete($id)
+    public function delete($id): bool|string
     {
         $this->service->delete($id);
         return DeleteAdapter::json();
     }
 
-    public function show($id)
+    public function show($id): bool|string
     {
         return ShowAdapter::json($this->service->show($id));
     }
 
-    public function list()
+    public function list(): bool|string
     {
         return ListAdapter::json($this->service->list());
     }
 
-    public function categoriasList()
+    public function categoriasList(): bool|string
     {
         return ListAdapter::json($this->service->categoriasList());
     }

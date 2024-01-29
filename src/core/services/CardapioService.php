@@ -31,7 +31,7 @@ class CardapioService implements ICardapioService
     /**
      * @param array $request
      * @return Cardapio
-     * @throws Exception
+     * @throws ServicesException|Exception
      */
     public function create(array $request): Cardapio
     {
@@ -57,7 +57,7 @@ class CardapioService implements ICardapioService
      * @param int $id
      * @param array $request
      * @return Cardapio
-     * @throws Exception
+     * @throws Exception|ServicesException
      */
     public function update(string $id, array $request): Cardapio
     {
@@ -81,7 +81,7 @@ class CardapioService implements ICardapioService
     /**
      * @param string $id
      * @return array
-     * @throws \Exception
+     * @throws ServicesException
      */
     public function delete(string $id): array
     {

@@ -3,13 +3,7 @@
   <source>
     <include>
       <directory suffix=".php">src/core/services</directory>
+      <directory suffix=".php">src/controllers</directory>
     </include>
-    <exclude>
-      <file>src/core/services/PagamentoService.php</file>
-      <file>src/adapters/db/external/MongoConnection.php</file>
-      <file>src/adapters/db/external/MongoRepository.php</file>
-      <file>src/controllers/CardapioController.php</file>
-      <file>src/controllers/PedidoController.php</file>
-    </exclude>
   </source>
 </phpunit>
