@@ -6,7 +6,6 @@ use MongoDB\Driver\Command;
 use MongoDB\Driver\Manager;
 use MongoDB\Driver\ServerApi;
 use MsPedidosApp\adapters\db\external\base\ConnectionData;
-use MsPedidosApp\external\base\Connection;
 
 
 class MongoConnection extends ConnectionData

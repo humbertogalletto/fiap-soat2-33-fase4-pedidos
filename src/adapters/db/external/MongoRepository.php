@@ -127,7 +127,7 @@ class MongoRepository
      * @return int|null
      */
     public function update(string $id, array $data): ?int
-    {//print_r($this->getQuery($id));die;
+    {
         unset($data['oid']);
         $bulk = new BulkWrite();
         $bulk->update(['_id' => new ObjectId($id)], $data);

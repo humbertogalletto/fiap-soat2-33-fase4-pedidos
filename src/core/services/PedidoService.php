@@ -81,8 +81,9 @@ class PedidoService implements IPedidoService
                 $toSave['itens'] = $data['itens'];
                 $total = 0;
                 foreach ($data['itens'] as $i => $item) {
-                    $toSave['itens'][$i]['valor'] = $item['quantidade'] * $item['valor_unitario'];
-                    $total += $data['itens'][$i]['valor'];
+                    $value = $item['quantidade'] * $item['valor_unitario'];
+                    $toSave['itens'][$i]['valor'] = $value;
+                    $total += $value;
                 }
                 $toSave['total_pedido'] = $total;
             }

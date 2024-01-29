@@ -47,7 +47,7 @@ class CardapioService implements ICardapioService
         $request['created_at'] = $request['updated_at'] = date('Y-m-d H:i:s');
 
         if($this->repository->create($request) == 0) {
-            throw new \Exception("O item do cardápiio não foi criado", 500);
+            throw new \Exception("O item do cardápio não foi criado", 500);
         }
         return $this->show($this->repository->getLastInsertId());
     }

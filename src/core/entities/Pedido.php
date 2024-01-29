@@ -16,7 +16,7 @@ class Pedido extends Entity
     public array|null $itens;
     public array|null $preparo;
 
-    public float $valor_total;
+    public float $total_pedido;
 
     public DateTime|string|null $created_at;
     public DateTime|string|null $updated_at;
