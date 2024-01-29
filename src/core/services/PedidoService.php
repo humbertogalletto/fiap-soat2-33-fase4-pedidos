@@ -31,8 +31,7 @@ class PedidoService implements IPedidoService
     /**
      * @param array $request
      * @return Pedido
-     * @throws \Exception
-     * @throws Exception
+     * @throws Exception|ServicesException
      */
     public function create(array $request): Pedido
     {
@@ -64,8 +63,7 @@ class PedidoService implements IPedidoService
      * @param string $id
      * @param array $request
      * @return Pedido
-     * @throws \Exception
-     * @throws Exception
+     * @throws Exception|ServicesException
      */
     public function update(string $id, array $request): Pedido
     {
@@ -122,7 +120,7 @@ class PedidoService implements IPedidoService
     /**
      * @param string $id
      * @return array
-     * @throws \Exception
+     * @throws ServicesException
      */
     public function delete(string $id): array
     {
