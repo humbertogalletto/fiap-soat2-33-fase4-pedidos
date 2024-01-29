@@ -129,4 +129,40 @@ class PedidoServiceTest extends TestCase
 
         $this->assertInstanceOf(Pedido::class, $result);
     }
+
+    public function testDeleteSuccessful()
+    {
+        $this->repositoryMock->method('delete')->willReturn(1);
+
+        $result = $this->pedidoService->delete('huhuhuen9h98239dh9');
+
+        $this->assertEmpty($result);
+        $this->assertIsArray($result);
+    }
+
+    public function testDeleteFails()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage("O pedido não foi deletado");
+
+        $this->repositoryMock->method('delete')->willReturn(0);
+
+        $this->pedidoService->delete('huhuhuen9h98239dh9');
+    }
+
+    public function testShow()
+    {
+        $this->repositoryMock->method('show')->willReturn(
+            [
+                "nome" => "X SALADA",
+                "descricao" => "Lanche com hamburguer, queijo e alface",
+                "categoria" => "LANCHES",
+                "valor" => "30.50"
+            ]
+        );
+
+        $result = $this->pedidoService->show('huhuhuen9h98239dh9');
+
+        $this->assertInstanceOf(Pedido::class, $result);
+    }
 }
