@@ -80,7 +80,7 @@ class CardapioServiceTest extends TestCase
 
     public function testUpdateValidCategory()
     {
-        $this->repositoryMock->method('create')->willReturn(1);
+        $this->repositoryMock->method('update')->willReturn(1);
 
         $body = [
             "nome" => "Pepsi Grande",
@@ -98,7 +98,7 @@ class CardapioServiceTest extends TestCase
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Categoria inválida");
-        $this->repositoryMock->method('create')->willReturn(0);
+        $this->repositoryMock->method('update')->willReturn(0);
 
         $body = [
             "nome" => "Pepsi Grande",
