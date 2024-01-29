@@ -38,7 +38,7 @@ class CardapioService implements ICardapioService
         if(!isset($request['categoria'])){
             throw new ServicesException("Preencha a categoria do produto");
         }
-        $categoria = $request['categoria'] instanceof \UnitEnum ? $request['categoria']->name : $request['categoria'];
+        $categoria = strtoupper($request['categoria']);
         if (!array_key_exists($categoria, EnumCategorias::getList())) {
             throw new ServicesException("Categoria inválida");
         } else {
@@ -57,13 +57,12 @@ class CardapioService implements ICardapioService
      * @param int $id
      * @param array $request
      * @return Cardapio
+     * @throws Exception
      */
     public function update(string $id, array $request): Cardapio
     {
         if(isset($request['categoria'])) {
-            $categoria = $request['categoria'] instanceof \UnitEnum ?
-                $request['categoria']->name :
-                $request['categoria'];
+            $categoria = strtoupper($request['categoria']);
 
             if (!array_key_exists($categoria, EnumCategorias::getList())) {
                 throw new ServicesException("Categoria inválida");
