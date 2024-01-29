@@ -4,7 +4,7 @@ namespace MsPedidosApp\adapters\ui;
 
 class DeleteAdapter
 {
-    public static function json()
+    public static function json(): bool|string
     {
         try{
             header('Content-Type: application/json; charset=utf-8');
