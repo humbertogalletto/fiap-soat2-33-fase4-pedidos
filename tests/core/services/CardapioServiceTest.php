@@ -69,13 +69,21 @@ class CardapioServiceTest extends TestCase
     /**
      * @throws \MongoDB\Driver\Exception\Exception
      */
-    public function testCreateFailsToInsert()
+    public function testCreateFailsToInsertBadCategory()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Categoria inválida");
+
+        $this->cardapioService->create(['categoria' => 'CategoriaInvalida']);
+    }
+
+    public function testCreateFailsToInsert()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage("O item do cardápio não foi criado");
         $this->repositoryMock->method('create')->willReturn(0);
 
-        $this->cardapioService->create(['categoria' => 'CategoriaValida']);
+        $this->cardapioService->create(['categoria' => 'LANCHES']);
     }
 
     public function testUpdateValidCategory()
@@ -98,7 +106,6 @@ class CardapioServiceTest extends TestCase
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Categoria inválida");
-        $this->repositoryMock->method('update')->willReturn(0);
 
         $body = [
             "nome" => "Pepsi Grande",
@@ -108,6 +115,16 @@ class CardapioServiceTest extends TestCase
         ];
 
         $this->cardapioService->update('huhuhuen9h98239dh9', $body);
+    }
+
+    public function testUpdateFail()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage("O item do cardápio não foi alterado");
+        $this->repositoryMock->method('update')->willReturn(0);
+
+
+        $this->cardapioService->update('huhuhuen9h98239dh9', []);
     }
 
     // Testes para o método `delete`
@@ -183,4 +200,10 @@ class CardapioServiceTest extends TestCase
         $this->assertInstanceOf(Cardapio::class, $result[0]);
     }
 
+    public function testCategoriasList()
+    {
+        $result = $this->cardapioService->categoriasList();
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('LANCHES',$result);
+    }
 }
