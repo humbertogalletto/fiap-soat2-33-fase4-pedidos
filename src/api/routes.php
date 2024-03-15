@@ -2,9 +2,11 @@
 
 namespace App;
 
+
 use MsPedidosApp\adapters\db\DBGateway;
 use MsPedidosApp\api\FastFoodApp;
 use MsPedidosApp\controllers\CardapioController;
+use MsPedidosApp\controllers\ClienteController;
 use MsPedidosApp\controllers\PagamentoController;
 use MsPedidosApp\controllers\PedidoController;
 
@@ -21,6 +23,33 @@ $routes['/'] = [
     }
 ];
 
+// Clientes
+$routes['/clientes'] = [
+    'POST' => function () use ($data, $fastFoodApp) {
+        return $fastFoodApp->create(ClienteController::class, $data);
+    },
+    'GET' => function ($params = null) use ($fastFoodApp){
+        return $fastFoodApp->list(ClienteController::class, $params);
+    }
+];
+
+$routes['/clientes/{id}'] = [
+    'PUT' => function ($id) use ($data, $fastFoodApp) {
+        return $fastFoodApp->update(ClienteController::class, $id, $data);
+    },
+    'DELETE' => function ($id) use($fastFoodApp) {
+        return $fastFoodApp->delete(ClienteController::class, $id);
+    },
+    'GET' => function ($id) use($fastFoodApp) {
+        return $fastFoodApp->show(ClienteController::class, $id);
+    }
+];
+
+$routes['/clientes/cpf/{cpf}'] = [
+    'GET' => function ($cpf) use($fastFoodApp) {
+        return $fastFoodApp->query(ClienteController::class, $cpf, 'showByCpf');
+    }
+];
 // Pedidos
 $routes['/pedido'] = [
     'POST' => function () use ($data, $fastFoodApp) {

@@ -2,8 +2,7 @@
 
 namespace MsPedidosApp\core\entities;
 
-
-use MsPedidosApp\entities\DateTime;
+use DateTime;
 
 class Pedido extends Entity
 {
@@ -12,6 +11,8 @@ class Pedido extends Entity
      * @var string
      */
     public string $_id;
+
+    public string|null $clientId;
     public DateTime|string $recebimento;
     public DateTime|string|null $fechamento;
     public DateTime|string|null $pagamento;

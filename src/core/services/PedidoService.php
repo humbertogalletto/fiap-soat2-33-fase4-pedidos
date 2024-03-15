@@ -4,6 +4,7 @@ namespace MsPedidosApp\core\services;
 
 use MongoDB\Driver\Exception\Exception;
 use MsPedidosApp\adapters\db\external\MongoRepository;
+use MsPedidosApp\core\entities\Cliente;
 use MsPedidosApp\core\entities\Pedido;
 use MsPedidosApp\core\exceptions\ServicesException;
 use MsPedidosApp\core\interfaces\IPagamentoService;
@@ -35,6 +36,7 @@ class PedidoService implements IPedidoService
      */
     public function create(array $request): Pedido
     {
+        $data['clientId'] = $request['clientId'] ?? null;
         $data['status'] = EnumStatus::INICIADO->name;
         $data['createdAt'] = $data['updatedAt'] = date('Y-m-d H:i:s');
 
@@ -94,7 +96,7 @@ class PedidoService implements IPedidoService
                     $toSave['itens'][$i]['valor'] = $value;
                     $total += $value;
                 }
-                $toSave['total_pedido'] = $total;
+                $toSave['totalPedido'] = $total;
             }
         }
 
@@ -204,5 +206,26 @@ class PedidoService implements IPedidoService
             $response[$i][] = (new Pedido())->fill($pedido);
         }
         return $response;
+    }
+
+    /**
+     * @param string $clientId
+     * @return array
+     * @throws Exception
+     * @throws ServicesException
+     */
+    public function clearClients(array $clients): array
+    {
+        $pedidos = $this->repository->query(
+            [
+                'clientId' => [
+                    '$nin' => $clients
+                ]
+            ]
+        );
+        foreach ($pedidos as $pedido) {
+            $this->repository->update($pedido->_id, ['$set' => ['clientId' => null]]);
+        }
+        return [];
     }
 }
