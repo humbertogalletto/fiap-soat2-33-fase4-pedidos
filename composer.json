@@ -13,7 +13,8 @@
         }
     ],
     "require-dev": {
-        "phpunit/phpunit": "^10.5"
+        "phpunit/phpunit": "^10.5",
+        "kwn/php-rdkafka-stubs": "^0.0.1"
     },
     "require": {
         "vlucas/phpdotenv": "^5.6",

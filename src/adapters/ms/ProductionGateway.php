@@ -2,35 +2,31 @@
 
 namespace MsPedidosApp\adapters\ms;
 
-use MsPedidosApp\adapters\ms\base\SendOut;
+use MsPedidosApp\adapters\ms\base\MsApi;
+use RdKafka\Exception;
 
-class ProductionGateway extends SendOut
+class ProductionGateway extends MsApi
 {
     private static ?self $instance = null;
 
-    private $endpoint;
-    private function __construct(){$this->setEndpoint();}
+    /**
+     * Factoring
+     */
+    private function __construct(){}
 
     /**
      * @param $data
-     * @return array
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return string
+     * @throws Exception
      */
-    public static function produce($data): array
+    public static function produce($data): string
     {
         if (is_null(self::$instance)){
             self::$instance = new static();
         }
-        $paymentGateway = self::$instance;
+        $productionGateway = self::$instance;
 
-        return json_decode($paymentGateway->post($paymentGateway->getEndpoint(), $data), true);
+        return $productionGateway->sendToQueue(json_encode($data), "{$_ENV['PRODUCTION_TOPIC']}");
     }
 
-    public function setEndpoint(){
-        $this->endpoint = "{$_ENV['PRODUCTION_CONNECT']}/confirm";
-    }
-
-    public function getEndpoint(){
-        return $this->endpoint;
-    }
 }

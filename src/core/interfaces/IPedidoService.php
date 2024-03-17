@@ -12,5 +12,6 @@ interface IPedidoService
     public function show(string $id): Pedido;
     public function list(): array;
     public function statusList(): array;
+    public function clearClients(array $clients): array;
 
 }
