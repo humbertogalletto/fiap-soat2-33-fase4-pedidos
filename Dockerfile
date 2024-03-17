@@ -7,7 +7,11 @@ RUN apt-get update && \
     vim \
     curl \
     wget \
-    libcurl4-openssl-dev pkg-config libssl-dev
+    libcurl4-openssl-dev pkg-config libssl-dev \
+    librdkafka-dev \
+        && rm -rf /var/lib/apt/lists/*
+
+RUN pecl install rdkafka && docker-php-ext-enable rdkafka
 
 RUN a2enmod rewrite
 
@@ -16,6 +20,7 @@ RUN pecl install mongodb && docker-php-ext-enable mongodb
 #RUN echo "extension=mongodb.so" >> /usr/local/etc/php/php.ini
 #RUN echo "extension=mongodb.so" >> /usr/local/etc/php/conf.d/docker-php-ext-mongodb.ini
 #RUN echo "extension=mongodb.so" >> /usr/local/etc/php/conf.d/docker-php-ext-sodium.ini
+RUN echo extension=rdkafka.so >> /usr/local/etc/php/php.ini
 
 WORKDIR /var/www/html
 

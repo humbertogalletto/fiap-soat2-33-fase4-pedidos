@@ -1,13 +1,21 @@
 <?php
 namespace MsPedidosApp\api;
 
+use MsPedidosApp\adapters\queue\QueueGateway;
 use MsPedidosApp\controllers\base\ControllerBuilder;
 
 class FastFoodApp extends ControllerBuilder
 {
+    /**
+     * @param $repository
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \MongoDB\Driver\Exception\Exception
+     * @throws \MsPedidosApp\core\exceptions\ServicesException
+     */
     public function __construct($repository)
     {
         $this->repository = $repository;
+        QueueGateway::listen();
     }
 
     public function create($controller, $request)

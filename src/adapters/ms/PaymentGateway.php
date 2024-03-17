@@ -2,14 +2,18 @@
 
 namespace MsPedidosApp\adapters\ms;
 
-use MsPedidosApp\adapters\ms\base\SendOut;
+use GuzzleHttp\Exception\GuzzleException;
+use MsPedidosApp\adapters\ms\base\MsApi;
+use RdKafka\Exception;
 
-class PaymentGateway extends SendOut
+class PaymentGateway extends MsApi
 {
     private static ?self $instance = null;
 
-    private $endpoint;
-    private function __construct(){$this->setEndpoint();}
+    /**
+     * Factoring
+     */
+    private function __construct(){}
 
     public static function order($data): array
     {
@@ -18,15 +22,16 @@ class PaymentGateway extends SendOut
         }
         $paymentGateway = self::$instance;
 
-        return json_decode($paymentGateway->post($paymentGateway->getEndpoint(), $data), true);
+        return $paymentGateway->orderByQueue($data);
     }
 
-    public function setEndpoint(){
-        $this->endpoint = "{$_ENV['PAYMENT_CONNECTION']}/order-confirm";
+    /**
+     * @param array $data
+     * @return array
+     * @throws Exception
+     */
+    private function orderByQueue(array $data): array
+    {
+        return json_decode($this->sendToQueue(json_encode($data), "{$_ENV['KAFKA_TOPIC_PEDIDO_NOVO']}"), true);
     }
-
-    public function getEndpoint(){
-        return $this->endpoint;
-    }
-
 }
