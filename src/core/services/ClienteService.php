@@ -33,10 +33,10 @@ class ClienteService implements IClienteService
     /**
      * @param array $request
      * @return Cliente|null
-     * @throws ServicesException
      * @throws Exception
+     * @throws ServicesException
      */
-    public function create(array $request): Cliente | null
+    public function create(array $request): Cliente|null
     {
         if(!isset($request['cpf'])) {
             return null;
@@ -52,7 +52,12 @@ class ClienteService implements IClienteService
             return $this->show($this->repository->getLastInsertId());
         }
 
-        return $this->update($existingClient->_id, $request);
+        try{
+            $this->update($existingClient->_id, $request);
+            return $this->show($existingClient->_id);
+        } catch (ServicesException $e){
+            throw new ServicesException("O cliente não foi criado", 500);
+        }
     }
 
     /**
