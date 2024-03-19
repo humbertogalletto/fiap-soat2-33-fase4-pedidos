@@ -16,7 +16,7 @@ class PagamentoService implements IPagamentoService
     public function process(array $data): bool
     {
         if($data['confirm']) {
-            return $this->confirm();
+            return $this->confirm($data);
         }
 
         return false;
@@ -26,9 +26,9 @@ class PagamentoService implements IPagamentoService
      * @return bool
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function confirm(): bool
+    public function confirm(array $data): bool
     {
-        ProductionGateway::produce(['status' => true]);
+        ProductionGateway::produce(['status' => true, 'pedidoId' => $data['externalId']]);
 
         return true;
     }
