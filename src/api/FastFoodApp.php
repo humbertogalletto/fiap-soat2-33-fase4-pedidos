@@ -1,16 +1,20 @@
 <?php
 namespace MsPedidosApp\api;
 
+use GuzzleHttp\Exception\GuzzleException;
 use MsPedidosApp\adapters\queue\QueueGateway;
 use MsPedidosApp\controllers\base\ControllerBuilder;
+use MsPedidosApp\core\exceptions\ServicesException;
+use RdKafka\Exception;
 
 class FastFoodApp extends ControllerBuilder
 {
     /**
      * @param $repository
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      * @throws \MongoDB\Driver\Exception\Exception
-     * @throws \MsPedidosApp\core\exceptions\ServicesException
+     * @throws ServicesException
+     * @throws Exception
      */
     public function __construct($repository)
     {

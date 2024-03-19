@@ -47,30 +47,14 @@ class QueueGateway
      * @throws \MongoDB\Driver\Exception\Exception
      * @throws ServicesException|Exception
      */
-    public static function listen()
+    public static function listen():void
     {
         if (is_null(self::$instance)){
             self::$instance = new static();
         }
         $queue = self::$instance;
 
-        $msg = $queue->listenToKafka();
-
-        switch($msg['topic']){
-            case "{$_ENV['KAFKA_TOPIC_PAGAMENTO_APROVADO']}":
-                (new PagamentoService())->process(json_decode($msg['payload']));
-                break;
-            case "{$_ENV['KAFKA_TOPIC_PAGAMENTO_NAO_APROVADO']}":
-                $data = json_decode($msg['payload'], true);
-                (new PedidoService(DBGateway::getRepository()))
-                    ->update(
-                        $data['externalId'],
-                        ['status' => EnumStatus::FINALIZADO]
-                    );
-                break;
-            default:
-                break;
-        }
+        $queue->listenToKafka();
     }
 
     /**
@@ -90,12 +74,37 @@ class QueueGateway
      * @return array
      * @throws Exception
      */
-    private function listenToKafka():array
+    private function listenToKafka():void
     {
         $topics = ["{$_ENV['KAFKA_TOPIC_PAGAMENTO_APROVADO']}", "{$_ENV['KAFKA_TOPIC_PAGAMENTO_NAO_APROVADO']}"];
         $broker = "{$_ENV['KAFKA_BROKER']}:{$_ENV['KAFKA_PORT']}";
         $kafkaConsumer = new KafkaConsumer($broker, $topics);
-        return $kafkaConsumer->listen();
+        $kafkaConsumer->listen();
+    }
 
+    /**
+     * @param $msg
+     * @return void
+     * @throws GuzzleException
+     * @throws ServicesException
+     * @throws \MongoDB\Driver\Exception\Exception
+     */
+    public static function interrupt($msg):void
+    {
+        switch($msg['topic']){
+            case "{$_ENV['KAFKA_TOPIC_PAGAMENTO_APROVADO']}":
+                (new PagamentoService())->process(json_decode($msg['payload']));
+                break;
+            case "{$_ENV['KAFKA_TOPIC_PAGAMENTO_NAO_APROVADO']}":
+                $data = json_decode($msg['payload'], true);
+                (new PedidoService(DBGateway::getRepository()))
+                    ->update(
+                        $data['externalId'],
+                        ['status' => EnumStatus::FINALIZADO]
+                    );
+                break;
+            default:
+                break;
+        }
     }
 }
