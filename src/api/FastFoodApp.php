@@ -19,7 +19,6 @@ class FastFoodApp extends ControllerBuilder
     public function __construct($repository)
     {
         $this->repository = $repository;
-        QueueGateway::listen();
     }
 
     public function create($controller, $request)

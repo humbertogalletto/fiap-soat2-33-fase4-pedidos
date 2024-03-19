@@ -26,4 +26,13 @@ services:
     ports:
       - "27017:27017"
 
+  kafka-consumer:
+    build:
+      context: .
+    volumes:
+      - ./src/adapters/queue/consumer:/app
+    command: [ "php", "/app/StartConsumer.php" ]
+    depends_on:
+     - web
+
   

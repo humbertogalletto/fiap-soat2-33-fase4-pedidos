@@ -6,8 +6,10 @@ use RdKafka\Conf;
 
 class KafkaConfig
 {
-    protected $endpoint;
+    protected $broker;
     protected $conf;
+
+    protected $timeout = 100;
 
     /**
      * @param $config
@@ -21,9 +23,10 @@ class KafkaConfig
 
     public function setConf(string $endpoint): void
     {
-        $this->endpoint = $endpoint;
+        $this->broker = $endpoint;
         $this->conf = new Conf();
         $this->conf->set('metadata.broker.list', $endpoint);
+        $this->conf->set('message.max.bytes', 1000000);
 
     }
 }

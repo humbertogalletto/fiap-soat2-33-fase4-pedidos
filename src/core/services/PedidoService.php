@@ -21,9 +21,12 @@ class PedidoService implements IPedidoService
 
     protected MongoRepository $repository;
 
+    private MongoRepository $clientRepository;
+
     public function __construct($repository)
     {
         $this->repository = $repository;
+        $this->clientRepository = clone $repository;
         $this->repository->setNamespace($this->namespace);
         $this->repository->setPKey($this->pKey);
         $this->entity = new Pedido();
@@ -36,7 +39,9 @@ class PedidoService implements IPedidoService
      */
     public function create(array $request): Pedido
     {
-        $data['clientId'] = $request['clientId'] ?? null;
+        $client = (new ClienteService($this->clientRepository))->create($request);
+
+        $data['clientId'] = $client->_id ?? null;
         $data['status'] = EnumStatus::INICIADO->name;
         $data['createdAt'] = $data['updatedAt'] = date('Y-m-d H:i:s');
 

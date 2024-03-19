@@ -49,7 +49,7 @@ class KafkaConsumer extends KafkaConfig
         }
 
         while (true) {
-            $msg = $this->queue->consume(0);
+            $msg = $this->queue->consume($this->timeout);
             if($msg->err){
                 throw new Exception('Erro de leitura na fila do Kafka');
             }
