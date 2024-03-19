@@ -14,6 +14,9 @@ $json = file_get_contents('php://input');
 $data = json_decode($json, true);
 $routes = [];
 
+$command = 'php /src/adapters/queue/QueueGateway.php > /dev/null 2>&1 &';
+shell_exec($command);
+
 $fastFoodApp = new FastFoodApp(DBGateway::getRepository());
 
 // Home - Exibe o cardápio

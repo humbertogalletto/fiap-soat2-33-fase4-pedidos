@@ -44,6 +44,13 @@ class MongoRepository
     }
 
     /**
+     * just to clone
+     * @return void
+     */
+    public function __clone() {
+    }
+
+    /**
      * @return ObjectId
      */
     public function getId()

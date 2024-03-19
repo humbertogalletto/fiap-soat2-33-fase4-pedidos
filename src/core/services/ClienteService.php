@@ -143,4 +143,5 @@ class ClienteService implements IClienteService
     {
         return str_replace(['.', '-', '/'], '',trim($cpf));
     }
+
 }

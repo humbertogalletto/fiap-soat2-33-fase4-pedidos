@@ -9,6 +9,6 @@ interface IDBGateway
 
     public function getRepository(): MongoRepository;
 
-    public function setRepository(MongoRepository $mongoMongoRepository): void;
+    public function setRepository(MongoRepository $mongoRepository): void;
 
 }

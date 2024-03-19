@@ -2,7 +2,10 @@
 
 namespace MsPedidosApp\adapters\queue\consumer;
 
+use GuzzleHttp\Exception\GuzzleException;
 use MsPedidosApp\adapters\queue\base\KafkaConfig;
+use MsPedidosApp\adapters\queue\QueueGateway;
+use MsPedidosApp\core\exceptions\ServicesException;
 use RdKafka\Consumer;
 use RdKafka\ConsumerTopic;
 use RdKafka\Exception;
@@ -33,6 +36,9 @@ class KafkaConsumer extends KafkaConfig
     /**
      * @return array
      * @throws Exception
+     * @throws GuzzleException
+     * @throws \MongoDB\Driver\Exception\Exception
+     * @throws ServicesException
      */
     public function listen():array
     {
@@ -43,12 +49,12 @@ class KafkaConsumer extends KafkaConfig
         }
 
         while (true) {
-            $msg = $this->queue->consume(0, 1000);
+            $msg = $this->queue->consume($this->timeout);
             if($msg->err){
                 throw new Exception('Erro de leitura na fila do Kafka');
             }
 
-            return ['topic' => $msg->topic_name, 'payload' => $msg->payload];
+            QueueGateway::interrupt(['topic' => $msg->topic_name, 'payload' => $msg->payload]);
         }
     }
 
