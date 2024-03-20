@@ -8,6 +8,6 @@ interface IPagamentoService
 {
     public function order(Pedido $pedido): array;
     public function process(array $data): bool;
-    public function confirm(): bool;
+    public function confirm(array $data): bool;
 
 }

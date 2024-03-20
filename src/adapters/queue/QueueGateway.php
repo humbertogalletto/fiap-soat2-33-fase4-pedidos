@@ -76,7 +76,11 @@ class QueueGateway
      */
     private function listenToKafka():void
     {
-        $topics = ["{$_ENV['KAFKA_TOPIC_PAGAMENTO_APROVADO']}", "{$_ENV['KAFKA_TOPIC_PAGAMENTO_NAO_APROVADO']}"];
+        $topics = [
+            "{$_ENV['KAFKA_TOPIC_PAGAMENTO_APROVADO']}",
+            "{$_ENV['KAFKA_TOPIC_PAGAMENTO_NAO_APROVADO']}",
+            "{$_ENV['KAFKA_TOPIC_PEDIDO_PRONTO']}"
+        ];
         $broker = "{$_ENV['KAFKA_BROKER']}:{$_ENV['KAFKA_PORT']}";
         $kafkaConsumer = new KafkaConsumer($broker, $topics);
         $kafkaConsumer->listen();
@@ -93,9 +97,12 @@ class QueueGateway
     {
         switch($msg['topic']){
             case "{$_ENV['KAFKA_TOPIC_PAGAMENTO_APROVADO']}":
-                (new PagamentoService())->process(json_decode($msg['payload']));
+                $data = json_decode($msg['payload'], true);
+                $data['confirm'] = true;
+                (new PagamentoService())->process($data);
                 break;
             case "{$_ENV['KAFKA_TOPIC_PAGAMENTO_NAO_APROVADO']}":
+            case "{$_ENV['KAFKA_TOPIC_PEDIDO_PRONTO']}":
                 $data = json_decode($msg['payload'], true);
                 (new PedidoService(DBGateway::getRepository()))
                     ->update(
